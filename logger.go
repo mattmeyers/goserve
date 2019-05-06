@@ -26,7 +26,7 @@ func (w *statusWriter) Write(b []byte) (int, error) {
 	return n, err
 }
 
-func logHTTP(handler http.Handler) http.HandlerFunc {
+func LogHTTP(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		sw := statusWriter{ResponseWriter: w}
