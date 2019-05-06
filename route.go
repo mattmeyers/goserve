@@ -2,7 +2,7 @@ package goserve
 
 import "net/http"
 
-// Route holds information for a single Goriila/mux route.
+// Route holds information for a single Gorilla/mux route.
 // TODO: Add query parameters.
 type Route struct {
 	Name        string
