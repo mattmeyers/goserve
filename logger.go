@@ -26,8 +26,8 @@ func (w *statusWriter) Write(b []byte) (int, error) {
 	return n, err
 }
 
-func LogHTTP(handler http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+func LogHTTP(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 		sw := statusWriter{ResponseWriter: w}
 		handler.ServeHTTP(&sw, r)
@@ -39,5 +39,5 @@ func LogHTTP(handler http.HandlerFunc) http.HandlerFunc {
 			sw.status,
 			time.Since(start),
 		)
-	}
+	})
 }

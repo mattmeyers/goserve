@@ -6,7 +6,9 @@ import "net/http"
 // TODO: Add query parameters.
 type Route struct {
 	Name        string
-	Method      string
+	Methods     []string
 	Pattern     string
+	Headers     []string
 	HandlerFunc http.HandlerFunc
+	Middleware  []Middleware
 }

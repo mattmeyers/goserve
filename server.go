@@ -8,6 +8,8 @@ import (
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 // serverConfig holds the information creating a server including
@@ -18,7 +20,7 @@ import (
 type serverConfig struct {
 	Port             int
 	GracefulWait     time.Duration
-	GlobalMiddleware []Middleware
+	GlobalMiddleware []mux.MiddlewareFunc
 }
 
 // NewServerConfig returns a serverConfig struct with the
@@ -27,7 +29,7 @@ func NewServerConfig() serverConfig {
 	return serverConfig{
 		Port:             8080,
 		GracefulWait:     time.Second * 15,
-		GlobalMiddleware: []Middleware{PanicRecover, LogHTTP},
+		GlobalMiddleware: []mux.MiddlewareFunc{PanicRecover, LogHTTP},
 	}
 }
 

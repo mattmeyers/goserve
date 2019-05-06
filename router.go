@@ -1,23 +1,21 @@
 package goserve
 
 import (
-	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
-func newRouter(routes []Route, middleware []Middleware) *mux.Router {
+func newRouter(routes []Route, globalMiddleware []mux.MiddlewareFunc) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
+	router.Use(globalMiddleware...)
 	for _, route := range routes {
-		var handler http.Handler
-
-		handler = Chain(route.HandlerFunc, middleware...)
+		handler := Chain(route.HandlerFunc, route.Middleware...)
 
 		router.
-			Methods(route.Method).
+			Methods(route.Methods...).
 			Path(route.Pattern).
 			Name(route.Name).
-			Handler(handler)
+			Handler(handler).
+			Headers(route.Headers...)
 	}
 
 	return router
